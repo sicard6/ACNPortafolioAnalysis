@@ -6,5 +6,5 @@
     "Location_SP500_list":"01_data/info/infoSP500.csv",
     "crypto": false,
     "sp500": true,
-    "coefficient": 0.5
+    "coefficient": 0.5 
 }

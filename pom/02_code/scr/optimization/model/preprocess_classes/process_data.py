@@ -24,8 +24,11 @@ class ProcessData():
             Returns:
                 pandas.DataFrame: A DataFrame containing the returns of the assets, with the date column preserved.
             """
+            date = data.iloc[:, 0]
+            date = date.drop(index=0)
             returns = data.iloc[:, 1:].pct_change()
             returns = returns.drop(index=0)
+            returns = returns.set_index(date)
             return returns
         
         @staticmethod            
