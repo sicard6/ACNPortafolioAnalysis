@@ -2,6 +2,7 @@ import pyomo.environ as pe
 import pandas as pd
 import os, sys
 sys.path[0] =os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
+import src.optimization.model.Constraints.constraints as constraints
 
 def set_set(model, to_pyomo_returns):
     model.time_dim = pe.RangeSet(to_pyomo_returns.time_set)

@@ -3,9 +3,9 @@ import os, sys
 print(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..')))
 sys.path[0] =os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 #Acá deben ir las funciones donde se filtren los activos no deseados 
-from scr.optimization.model.preprocess_classes.process_data import ProcessData
-from scr.optimization.model.preprocess_classes.pyomo_data import PyomoData
-from scr.commons.system_util import SystemUtilities
+from src.optimization.model.preprocess_classes.process_data import ProcessData
+from src.optimization.model.preprocess_classes.pyomo_data import PyomoData
+from src.commons.system_util import SystemUtilities
 
 def data_to_pyomo(processed_data):
     pyomo_data = PyomoData(processed_data)
