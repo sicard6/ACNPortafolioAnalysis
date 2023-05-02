@@ -13,6 +13,8 @@ class PyomoData:
                 for index, value in self.data[col].items():
                     self.dict[(index, col)] = value
         elif isinstance(self.data, pd.Series):
+            assets = self.data.index.tolist()
+            self.assets_set = assets
             self.dict = self.data.to_dict()
 
     

@@ -1,1 +1,2 @@
-''' aca las restricciones'''
+import pyomo.environ as pe
+
