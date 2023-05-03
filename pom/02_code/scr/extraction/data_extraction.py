@@ -4,17 +4,33 @@ import pandas as pd
 from datetime import datetime, timedelta
 import json
 
-# Suprimir advertencias de solicitudes no seguras
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-
 # Cargar el archivo JSON de la ruta especificada
 with open('pom/01_data/parameters.json') as f:
     config = json.load(f)
 
-print(type(config))
+########################################################################################
+############################# Codigo para Google Colab #################################
+
+#Leer tabla en Wikipedia con la informacion de las 500 empresas mas del SP500
+table = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
+df = table[0]
+df.to_csv('S&P500-Info.csv')
+df.to_csv("S&P500-Symbols.csv", columns=['Symbol'])
+
+#sp500 = pd.read_csv('pom/' + config['Location_SP500_list'])
+
+def get_list_sp500 ()
+
+########################################################################################
+############################# Codigo para Financial Modeling Prep #################################
+
+"""
+# Suprimir advertencias de solicitudes no seguras
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
 
 def get_time_delta(date: datetime, days: int, format: str = '%Y-%m-%d'):
-    """Esta función devuelve una fecha que está 'days' días antes de la fecha pasada como argumento y su fecha original.
+    """ """Esta función devuelve una fecha que está 'days' días antes de la fecha pasada como argumento y su fecha original.
 
     Args:
         date (datetime): fecha para ser utilizada como referencia
@@ -22,11 +38,11 @@ def get_time_delta(date: datetime, days: int, format: str = '%Y-%m-%d'):
 
     Returns:
         (str, str): fecha final y fecha de inicio en el formato especificado
-    """
+    """"""
     return (date - timedelta(days=days)).strftime(format), date.strftime(format)
 
 def get_stock_data(symbol, start_date, end_date, config):
-    """Obtiene los datos históricos de las acciones para un símbolo de empresa dado en un rango de fechas específico.
+    """ """Obtiene los datos históricos de las acciones para un símbolo de empresa dado en un rango de fechas específico.
 
     Args:
         symbol (str): Símbolo de la empresa
@@ -36,7 +52,7 @@ def get_stock_data(symbol, start_date, end_date, config):
 
     Returns:
         pd.DataFrame: DataFrame con los datos históricos de las acciones
-    """
+    """ """
 
     api_key = config.get('api_key')
     url = f'https://financialmodelingprep.com/api/v3/historical-price-full/{symbol}?apikey={api_key}&from={start_date}&to={end_date}'
@@ -70,3 +86,6 @@ stock_data = {}
 for symbol in symbols:
     stock_data[symbol] = get_stock_data(symbol, start_date, end_date, config)  # Cambiar config['api_key'] por config
 
+
+
+"""

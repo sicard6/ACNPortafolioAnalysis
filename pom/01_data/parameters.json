@@ -7,5 +7,6 @@
     "crypto": false,
     "sp500": true,
     "coefficient": 0.5,
-    "api_key": "04e850f84e589393dd26628badc9d31a"
+    "api_key": "04e850f84e589393dd26628badc9d31a",
+    "url_list_sp500":"https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
 }
