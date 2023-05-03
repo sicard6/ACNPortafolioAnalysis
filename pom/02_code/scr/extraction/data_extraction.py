@@ -57,6 +57,8 @@ sp500 = pd.read_csv('pom/' + config['Location_SP500_list'])
 
 # Extraer los símbolos de SP500 del DataFrame cargado
 symbols = sp500['Symbol'].tolist()
+#Solo como prueba 
+symbols = symbols[:5]
 
 # Define las fechas de inicio y finalización usando la función get_time_delta
 today = datetime.now()
