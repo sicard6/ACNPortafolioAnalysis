@@ -57,12 +57,13 @@ sp500 = pd.read_csv('pom/' + config['Location_SP500_list'])
 
 # Extraer los símbolos de SP500 del DataFrame cargado
 symbols = sp500['Symbol'].tolist()
-#Solo como prueba 
+#Solo como prueba, ultimos 5 valores
 symbols = symbols[:5]
 
 # Define las fechas de inicio y finalización usando la función get_time_delta
-today = datetime.now()
+today = datetime.now() - timedelta(days=1)  # Resta un día a la fecha actual
 start_date, end_date = get_time_delta(today, 5 * 365)
+
 
 # Obtiene los datos históricos de las acciones para cada símbolo y guarda los DataFrames en un diccionario
 stock_data = {}
