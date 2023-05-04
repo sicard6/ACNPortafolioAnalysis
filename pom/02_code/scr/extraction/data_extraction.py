@@ -1,5 +1,5 @@
 import requests
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
+#from requests.packages.urllib3.exceptions import InsecureRequestWarning
 import pandas as pd
 from datetime import datetime, timedelta
 import json
@@ -11,15 +11,139 @@ with open('pom/01_data/parameters.json') as f:
 ########################################################################################
 ############################# Codigo para Google Colab #################################
 
-#Leer tabla en Wikipedia con la informacion de las 500 empresas mas del SP500
-table = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
-df = table[0]
-df.to_csv('S&P500-Info.csv')
-df.to_csv("S&P500-Symbols.csv", columns=['Symbol'])
+import pandas as pd
+import numpy as np
+import yfinance as yf
+import datetime
+from datetime import date, timedelta
+from IPython.display import clear_output
 
-#sp500 = pd.read_csv('pom/' + config['Location_SP500_list'])
+def format_data_to_save(data: pd.DataFrame):
+    """
+    Esta función formatea los datos para ser guardados en la base de datos.
 
-def get_list_sp500 ()
+    Args:
+        data (pd.DataFrame): datos a ser formateados
+
+    Returns:
+        pd.DataFrame: datos formateados para ser guardados
+    """
+    data["Date"] = data.index
+    data = data[["Date", "Close"]]
+    data.reset_index(drop=True, inplace=True)
+    data["Date"] = data["Date"].dt.date
+    data["Date"] = pd.to_datetime(data["Date"])
+    fecha_minima = min(data["Date"])
+    data = data.set_index(data["Date"])
+    del data["Date"]
+    data = data.reorder_levels([0, 1], axis=1)
+    data.columns = data.columns.droplevel()
+    return data
+
+def get_time_delta(date: date, days: int, format: str = '%Y-%m-%d'):
+    """
+    Esta función devuelve una fecha que es 'days' días antes de la fecha pasada como argumento y su día original.
+
+    Args:
+        date (date): fecha a ser utilizada como referencia
+        days (int): número de días para el intervalo de tiempo
+
+    Returns:
+        [str, str]: fecha final y fecha inicial en el formato especificado
+    """
+    return (date - timedelta(days=days)).strftime(format), date.strftime(format)
+
+def extract_sp500_data(num_symbols=None,history_of_years = 5):
+    """
+    Esta función extrae datos del S&P 500, procesa los datos y guarda los resultados en archivos CSV.
+    
+    Args:
+        num_symbols (int, optional): número de símbolos de la lista S&P 500 a utilizar. Por defecto es None,
+        por lo que trae todos los elementos posibles de la lista.
+    """
+    # Leer lista de las empresas del SP500
+    table = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
+    sp500_info = table[0]
+
+    # Convertirlo CSV's
+    sp500_info.to_csv('S&P500-Info.csv')
+    sp500_info.to_csv("S&P500-Symbols.csv", columns=['Symbol'])
+    sp500_info.to_csv("S&P500-Sector.csv", columns=['GICS Sector'])
+
+    # Variable de los símbolos de las empresas (Tickers)
+    symbols = sp500_info["Symbol"].tolist()
+
+    # Eliminar "BF.B" y "BRK.B" de la lista de símbolos
+    symbols.remove("BF.B")
+    symbols.remove("BRK.B")
+    
+    if num_symbols is not None:
+        symbols = symbols[:num_symbols]
+
+    # Historial de años a investigar
+    start_date, end_date = get_time_delta(date.today(), 365 * history_of_years)
+
+    # Dataframe con Data 100% Cruda y que se guarda en un CSV
+    df_raw_data = yf.download(symbols,
+                              start=start_date,
+                              end=end_date,
+                              progress=False)
+
+    # Guardar la Raw Data en CSV
+    df_raw_data.to_csv('S&P500-Raw-Data.csv')
+
+    # Procesar y guardar datos
+    df_curated_data = format_data_to_save(df_raw_data)
+    df_curated_data.to_csv('S&P500-Curated-Data.csv')
+
+    df_curated_data_YS = df_curated_data.resample("YS").last()
+    df_curated_data_YS.to_csv('S&P500-Curated-Data_YS.csv')
+    df_curated_data_QS = df_curated_data.resample("QS").last()
+    df_curated_data_QS.to_csv('S&P500-Curated-Data_QS.csv')
+    df_curated_data_MS = df_curated_data.resample("MS").last()
+    df_curated_data_MS.to_csv('S&P500-Curated-Data_MS.csv')
+
+def extract_crypto_data(crypto_symbols, history_of_years=5):
+    """
+    Esta función extrae datos de criptomonedas, procesa los datos y guarda los resultados en archivos CSV.
+    
+    Args:
+        crypto_symbols (str): Símbolos de criptomonedas separados por espacios.
+        history_of_years (int, optional): Número de años de datos históricos a obtener. Por defecto es 5.
+    """
+    # Convertir la cadena de símbolos en una lista
+    symbols = crypto_symbols.split()
+
+    # Definir fechas de inicio y fin
+    start_date, end_date = get_time_delta(date.today(), 365 * history_of_years)
+
+    # Descargar datos crudos
+    df_raw_data = yf.download(symbols,
+                              start=start_date,
+                              end=end_date,
+                              progress=False)
+
+    # Guardar la Raw Data en CSV
+    df_raw_data.to_csv('Crypto-Raw-Data.csv')
+
+    # Procesar y guardar datos
+    df_curated_data = format_data_to_save(df_raw_data)
+    df_curated_data.to_csv('Crypto-Curated-Data.csv')
+
+    df_curated_data_YS = df_curated_data.resample("YS").last()
+    df_curated_data_YS.to_csv('Crypto-Curated-Data_YS.csv')
+    df_curated_data_QS = df_curated_data.resample("QS").last()
+    df_curated_data_QS.to_csv('Crypto-Curated-Data_QS.csv')
+    df_curated_data_MS = df_curated_data.resample("MS").last()
+    df_curated_data_MS.to_csv('Crypto-Curated-Data_MS.csv')
+
+
+## Funciones descargando informacion
+extract_sp500_data()
+
+Crypto_Symbols = "BTC-USD ETH-USD XRP-USD BNB-USD LTC-USD"
+extract_crypto_data(Crypto_Symbols)
+
 
 ########################################################################################
 ############################# Codigo para Financial Modeling Prep #################################
