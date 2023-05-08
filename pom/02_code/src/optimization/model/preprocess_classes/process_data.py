@@ -41,7 +41,7 @@ class ProcessData():
             Returns:
                 pandas.Series: A Series containing the expected returns for each asset.
             """
-            mean_returns = data.iloc[:, 1:].mean()
+            mean_returns = data.mean()
             return mean_returns
 
         def process_data(self, data):
