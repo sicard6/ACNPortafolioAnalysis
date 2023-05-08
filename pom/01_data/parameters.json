@@ -4,6 +4,8 @@
     "local_output": "03_outputs",
     "local_output_curated": "01_data/curated",
     "Location_SP500_list": "01_data/info/infoSP500.csv",
+    "input_pct_change" : "pom/01_data/curated",
+    "output_pct_change" : "pom/01_data/pct_change",
     "crypto": false,
     "sp500": true,
     "coefficient": 0.5,
