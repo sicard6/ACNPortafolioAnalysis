@@ -19,12 +19,10 @@ def preprocess_data(parameters):
     return processed_data
 
        
-'''
+
 system_util = SystemUtilities()
 system_util.read_parameters()
 system_util.generate_parameters()
 parameters = system_util.parameters
-x = preprocess_data(parameters)
-prueba = PyomoData(x.returns)
-print(prueba.dict)
-'''
+s = preprocess_data(parameters)
+print(s.returns)

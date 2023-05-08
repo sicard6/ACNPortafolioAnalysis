@@ -1,5 +1,6 @@
 import sys, re
 import pandas as pd
+from datetime import datetime
 #PREGUNTA: podría alguna vez leerse ambos data sets al mismo tiempo?, Usuario elige - complejizar el codigo 
 
 class ProcessData():
@@ -25,7 +26,7 @@ class ProcessData():
                 pandas.DataFrame: A DataFrame containing the returns of the assets, with the date column preserved.
             """
             date = data.iloc[:, 0]
-            date = date.drop(index=0)
+            date = pd.to_datetime(date.drop(index=0))
             returns = data.iloc[:, 1:].pct_change()
             returns = returns.drop(index=0)
             returns = returns.set_index(date)
