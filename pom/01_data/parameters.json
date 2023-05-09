@@ -2,6 +2,7 @@
     "run_name": "data_lectures",
     "local_input": "01_data/raw",
     "local_output": "03_outputs",
+<<<<<<< HEAD
     "local_output_curated": "01_data/curated",
     "Location_SP500_list": "01_data/info/infoSP500.csv",
     "input_pct_change" : "pom/01_data/curated",
@@ -12,3 +13,11 @@
     "api_key": "04e850f84e589393dd26628badc9d31a",
     "url_list_sp500":"https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
 }
+=======
+    "local_output_curated":"01_data/curated",
+    "Location_SP500_list":"01_data/info/infoSP500.csv",
+    "crypto": false,
+    "sp500": true,
+    "coefficient": 0.5 
+}
+>>>>>>> dc09b4955b5cb5e493111b7f2cd36b82d4feddec
