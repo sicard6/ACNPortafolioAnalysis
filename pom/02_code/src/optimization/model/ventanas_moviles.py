@@ -15,10 +15,10 @@ for window_start in range(len(data)-1,min_len-1, -window_shift):
     if window_end < 1:
         break
     window = data.iloc[window_end:len(data)-1]
-    for col in range(0,num_columns):
+    for col in range(num_columns):
         mean = np.mean(window.iloc[:, col])
         result[col].append(mean)
-initial_window_length=initial_window_length+1
+    initial_window_length=initial_window_length+1
 for col in range(num_columns):
     print(f"Medias móviles para la columna {data.columns[col]}:")
     for i in range(len(result[col])):
