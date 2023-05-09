@@ -5,19 +5,20 @@ import pandas as pd
 
 data = pd.read_csv("pom\\01_data\\pct_change\\S&P500-Curated-Data_MS_pct_change.csv", encoding="utf-8",sep=",",index_col="Date")
 num_columns=len(data.columns)
-result=[[] for i in range(num_columns)]
+result=[[] for i in range(0,num_columns)]
 initial_window_length = 12
+min_len=12
 window_shift = 1 
 
-for window_start in range(0, len(data), window_shift):
-    window_end = window_start + initial_window_length
-    if window_end > len(data):
+for window_start in range(len(data)-1,min_len-1, -window_shift):
+    window_end = len(data)-1 - initial_window_length
+    if window_end < 1:
         break
-    window = data.iloc[window_start:window_end]
-    for col in range(num_columns):
+    window = data.iloc[window_end:len(data)-1]
+    for col in range(0,num_columns):
         mean = np.mean(window.iloc[:, col])
         result[col].append(mean)
-
+initial_window_length=initial_window_length+1
 for col in range(num_columns):
     print(f"Medias móviles para la columna {data.columns[col]}:")
     for i in range(len(result[col])):
