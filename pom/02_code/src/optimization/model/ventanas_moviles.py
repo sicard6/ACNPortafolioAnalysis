@@ -10,20 +10,29 @@ initial_window_length = 12
 min_len=12
 window_shift = 1 
 
-for window_start in range(len(data)-1,min_len-1, -window_shift):
+for window_start in range(len(data)-1,min_len-2, -window_shift):
     window_end = len(data)-1 - initial_window_length
-    if window_end < 1:
+    if window_end < 0:
         break
     window = data.iloc[window_end:len(data)-1]
     for col in range(num_columns):
         mean = np.mean(window.iloc[:, col])
         result[col].append(mean)
     initial_window_length=initial_window_length+1
+marcos_de_tiempo=[]
+minimo=1
 for col in range(num_columns):
     print(f"Medias móviles para la columna {data.columns[col]}:")
+    objetive=data.iloc[-1,col]
     for i in range(len(result[col])):
-        print(f"Longitud de ventana {initial_window_length - i * window_shift}: {result[col][i]}")
-
+        print(f"Longitud de ventana {min_len+i}: {result[col][i]}")
+        diferencia=abs((result[col][i])-objetive)
+        if diferencia < minimo:
+            minimo=result[col][i]
+            longitud_objetivo=min_len+i 
+    marcos_de_tiempo.append(longitud_objetivo)
+print(marcos_de_tiempo)
+print(len(marcos_de_tiempo))
 """"
 window_lengths = []
 window_means = []
