@@ -75,6 +75,7 @@ class SystemUtilities:
         self.parameters["coefficient"] = self.params["coefficient"]
         self.parameters["crypto"] = self.params["crypto"]
         self.parameters["sp500"] = self.params["sp500"]
+        self.parameters["periodicity"] = self.params["periodicity"]
         self.parameters["output_json_dir"] = os.path.join(self.path_out, self.param_file)
         self.parameters["dir_crypto"] = os.path.join(self.path_in, "Crypto_History.csv")
         self.parameters["dir_sp500"] = os.path.join(self.path_in, "SP500_History.csv")
@@ -94,25 +95,7 @@ class SystemUtilities:
             if not os.path.exists(directory):
                 os.mkdir(directory)
 
-def get_string_time(t):
-    '''Function defined to get string time from time measured in seconds
-    Parameters
-    ----------
-    t : float
-        Time in seconds
-    Returns
-    ----------
-    time: str
-        String time
-    '''
-    m = int(t//60)
-    if m>0:
-        s = int(round(t)-m*60)
-    else:
-        s = round(t)
-    m = f'0{m}' if m<10 else m
-    s = f'0{s}' if s<10 else s
-    return f'{m}:{s}'
+
 
 
 

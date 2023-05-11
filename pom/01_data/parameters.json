@@ -2,6 +2,7 @@
     "run_name": "data_lectures",
     "local_input": "01_data/raw",
     "local_output": "03_outputs",
+    "periodicity": "M",
     "local_output_curated":"01_data/curated",
     "Location_SP500_list":"01_data/info/infoSP500.csv",
     "crypto": false,

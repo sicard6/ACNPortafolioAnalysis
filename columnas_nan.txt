@@ -1,0 +1,1 @@
+['ANDV', 'BF.B', 'CA', 'CBG', 'CHK', 'CSRA', 'DPS', 'ESRX', 'EVHC', 'GGP', 'HCN', 'HCP', 'KORS', 'LUK', 'MON', 'NFX', 'PCLN', 'PX', 'SCG', 'SNI', 'TWX', 'WYN']
