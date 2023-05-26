@@ -19,9 +19,12 @@ class ProcessData():
             if self.parameters['crypto']:
                  data = pd.read_csv(self.parameters['dir_crypto'])
                  data = data.dropna(axis=1)
+                 
             else: 
                  data = pd.read_csv(self.parameters['dir_sp500'])
                  data = data.dropna(axis=1)
+                 data = data.iloc[:409]
+                 data.to_csv('data.csv')
             return data
         
         @staticmethod
@@ -42,6 +45,7 @@ class ProcessData():
             returns = data.iloc[:, 1:].pct_change()
             returns = returns.drop(index=0)
             returns = returns.set_index(date)
+            returns.to_csv('returns.csv')
             return returns
         
         @staticmethod            

@@ -56,6 +56,6 @@ def get_next_period(returns, mean):
 
 #Pregunta: esta funcion mejor acá o en process_data
 def data_periodicity(data, parameters):
-    df_periodicity= data.resample(parameters['periodicity']).mean()
+    df_periodicity= data.resample(parameters['periodicity']).last()
     return df_periodicity
 
