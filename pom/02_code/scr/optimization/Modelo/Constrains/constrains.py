@@ -1,1 +1,0 @@
-''' aca las restricciones'''
